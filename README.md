@@ -25,7 +25,7 @@ The original repository belongs to the Flutter Community. Full credit goes to th
 To use this forked version in your Flutter project, update your `pubspec.yaml` as follows:
 
 ```yaml
-dependencies:
+dependency_overrides:
   chewie:
     git:
-      url: https://github.com/your-username/chewie.git
+      url: https://github.com/0krushang/chewie.git
