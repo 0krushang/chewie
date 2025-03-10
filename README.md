@@ -28,4 +28,4 @@ To use this forked version in your Flutter project, update your `pubspec.yaml` a
 dependency_overrides:
   chewie:
     git:
-      url: https://github.com/0krushang/chewie.git
+      url: https://github.com/CHECKTRACK/chewie.git
