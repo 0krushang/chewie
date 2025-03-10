@@ -5,7 +5,6 @@ import 'package:chewie/src/center_play_button.dart';
 import 'package:chewie/src/chewie_player.dart';
 import 'package:chewie/src/chewie_progress_colors.dart';
 import 'package:chewie/src/helpers/utils.dart';
-import 'package:chewie/src/material/color_compat_extensions.dart';
 import 'package:chewie/src/material/material_progress_bar.dart';
 import 'package:chewie/src/material/widgets/options_dialog.dart';
 import 'package:chewie/src/material/widgets/playback_speed_dialog.dart';
@@ -183,7 +182,7 @@ class _MaterialDesktopControlsState extends State<MaterialDesktopControls>
   }) {
     final options = <OptionItem>[
       OptionItem(
-        onTap: (context) async {
+        onTap: () async {
           Navigator.pop(context);
           _onSpeedButtonTap();
         },
@@ -494,8 +493,7 @@ class _MaterialDesktopControlsState extends State<MaterialDesktopControls>
   }
 
   Future<void> _initialize() async {
-    _subtitleOn = chewieController.showSubtitles &&
-        (chewieController.subtitle?.isNotEmpty ?? false);
+    _subtitleOn = chewieController.subtitle?.isNotEmpty ?? false;
     controller.addListener(_updateState);
 
     _updateState();
@@ -650,9 +648,9 @@ class _MaterialDesktopControlsState extends State<MaterialDesktopControls>
               playedColor: Theme.of(context).colorScheme.secondary,
               handleColor: Theme.of(context).colorScheme.secondary,
               bufferedColor:
-                  Theme.of(context).colorScheme.surface.withOpacityCompat(0.5),
+                  Theme.of(context).colorScheme.surface.withOpacity(0.5),
               backgroundColor:
-                  Theme.of(context).disabledColor.withOpacityCompat(0.5),
+                  Theme.of(context).disabledColor.withOpacity(0.5),
             ),
         draggableProgressBar: chewieController.draggableProgressBar,
       ),

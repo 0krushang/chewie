@@ -5,7 +5,6 @@ import 'package:chewie/src/center_seek_button.dart';
 import 'package:chewie/src/chewie_player.dart';
 import 'package:chewie/src/chewie_progress_colors.dart';
 import 'package:chewie/src/helpers/utils.dart';
-import 'package:chewie/src/material/color_compat_extensions.dart';
 import 'package:chewie/src/material/material_progress_bar.dart';
 import 'package:chewie/src/material/widgets/options_dialog.dart';
 import 'package:chewie/src/material/widgets/playback_speed_dialog.dart';
@@ -162,10 +161,10 @@ class _MaterialControlsState extends State<MaterialControls>
     );
   }
 
-  List<OptionItem> _buildOptions(BuildContext context) {
+  Widget _buildOptionsButton() {
     final options = <OptionItem>[
       OptionItem(
-        onTap: (context) async {
+        onTap: () async {
           Navigator.pop(context);
           _onSpeedButtonTap();
         },
@@ -179,10 +178,7 @@ class _MaterialControlsState extends State<MaterialControls>
         chewieController.additionalOptions!(context).isNotEmpty) {
       options.addAll(chewieController.additionalOptions!(context));
     }
-    return options;
-  }
 
-  Widget _buildOptionsButton() {
     return AnimatedOpacity(
       opacity: notifier.hideStuff ? 0.0 : 1.0,
       duration: const Duration(milliseconds: 250),
@@ -191,15 +187,14 @@ class _MaterialControlsState extends State<MaterialControls>
           _hideTimer?.cancel();
 
           if (chewieController.optionsBuilder != null) {
-            await chewieController.optionsBuilder!(
-                context, _buildOptions(context));
+            await chewieController.optionsBuilder!(context, options);
           } else {
             await showModalBottomSheet<OptionItem>(
               context: context,
               isScrollControlled: true,
               useRootNavigator: chewieController.useRootNavigator,
               builder: (context) => OptionsDialog(
-                options: _buildOptions(context),
+                options: options,
                 cancelButtonText:
                     chewieController.optionsTranslation?.cancelButtonText,
               ),
@@ -475,7 +470,7 @@ class _MaterialControlsState extends State<MaterialControls>
             text: '/ ${formatDuration(duration)}',
             style: TextStyle(
               fontSize: 14.0,
-              color: Colors.white.withOpacityCompat(.75),
+              color: Colors.white.withOpacity(0.75),
               fontWeight: FontWeight.normal,
             ),
           )
@@ -530,8 +525,7 @@ class _MaterialControlsState extends State<MaterialControls>
   }
 
   Future<void> _initialize() async {
-    _subtitleOn = chewieController.showSubtitles &&
-        (chewieController.subtitle?.isNotEmpty ?? false);
+    _subtitleOn = chewieController.subtitle?.isNotEmpty ?? false;
     controller.addListener(_updateState);
 
     _updateState();
@@ -688,9 +682,9 @@ class _MaterialControlsState extends State<MaterialControls>
               playedColor: Theme.of(context).colorScheme.secondary,
               handleColor: Theme.of(context).colorScheme.secondary,
               bufferedColor:
-                  Theme.of(context).colorScheme.surface.withOpacityCompat(0.5),
+                  Theme.of(context).colorScheme.surface.withOpacity(0.5),
               backgroundColor:
-                  Theme.of(context).disabledColor.withOpacityCompat(.5),
+                  Theme.of(context).disabledColor.withOpacity(0.5),
             ),
         draggableProgressBar: chewieController.draggableProgressBar,
       ),
